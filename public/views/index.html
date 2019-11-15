@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <title>にゃイッター</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Sample</title>
+    <!-- BootstrapのCSS読み込み -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- BootstrapのJS読み込み -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <style>
+        .thumnail {
+            width: 40%;
+            max-width: 80%;
+            height: auto;
+        }
+        .header {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+        .button_wrapper{
+            margin-top: 30px;
+            text-align:center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div style="padding:15px">
+                <img class="d-flex align-self-end mr-3 header" src="./header.png">
+                <div class="card">
+                    <h5 class="mt-0">この人が作りました</h5>
+                    <div class="media">
+                        <img class="d-flex align-self-end mr-3 thumnail" src="https://avatars2.githubusercontent.com/u/40590821?s=460&v=4" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <p class="mb-0">笹のり 400エラー</p>
+                            <p class="mb-0"><a href="https://twitter.com/sasa_nss_app">@sasa_nss_app</a></p>
+                            <p class="mb-0"><a href="https://github.com/noriyuki-sasagawa">noriyuki-sasagawa</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="button_wrapper">
+                    <button type="submit" id="ajax" class="btn btn-dark">スタートにゃ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            // Ajax button click
+            $('#ajax').on('click', function() {
+                $.ajax({
+                        async: true,
+                        url: 'check',
+                        type: 'POST',
+                    })
+                    // Ajaxリクエストが成功した時発動
+                    .done((data) => {
+                        if (data == "no") {
+                            window.location.href="./auth";
+                        } else {
+                            window.location.href="./tweet";
+                        }
+                    })
+                    // Ajaxリクエストが失敗した時発動
+                    .fail((data) => {
+                        window.location.href="./auth";
+                    })
+            });
+        });
+    </script>
+</body>
+
+</html>
