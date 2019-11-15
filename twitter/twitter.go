@@ -19,7 +19,7 @@ const test = "http://localhost:3022/callback"
 // AuthTwitter ツイッターの認証開始
 func AuthTwitter(c echo.Context) error {
 	api := connectAPI()
-	uri, _, error := api.AuthorizationURL(callback))
+	uri, _, error := api.AuthorizationURL(callback)
 	if error != nil {
 		fmt.Println(error)
 		return error
