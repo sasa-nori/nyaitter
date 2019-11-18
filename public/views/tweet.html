@@ -112,6 +112,7 @@
                 .done((data, textStatus, jqXHR) => {
                         if (jqXHR.status == 200) {
                             $('#preview_field').val(data)
+                            $("#complete").css("display", "none")
                         } else {
                             alert("失敗にゃ。\nごめんにゃ")
                         }
