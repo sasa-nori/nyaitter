@@ -69,11 +69,11 @@
                         type: 'POST',
                     })
                     // Ajaxリクエストが成功した時発動
-                    .done((data) => {
-                        if (data == "no") {
-                            window.location.href = "./auth";
-                        } else {
+                    .done((data, textStatus, jqXHR) => {
+                        if (jqXHR.status == 200) {
                             window.location.href = "./tweet";
+                        } else {
+                            window.location.href = "./auth";
                         }
                     })
                     // Ajaxリクエストが失敗した時発動
