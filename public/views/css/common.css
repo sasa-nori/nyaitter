@@ -1,0 +1,25 @@
+.thumnail {
+    width: 40%;
+    max-width: 80%;
+    height: auto;
+}
+
+.header {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.button_wrapper {
+    text-align: center;
+}
+
+.button {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.text_filed {
+    margin-top: 30px;
+}

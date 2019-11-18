@@ -21,6 +21,7 @@ func RunAPIServer() {
     e.File("/header.png", "public/views/header.png")
     e.Renderer = t
     e.GET("/", page.Index)
+    e.GET("/tweet", page.Tweet)
     e.GET("/auth", twitter.AuthTwitter)
     e.GET("/callback", twitter.Callback)
     e.POST("/check", twitter.HasCookie)

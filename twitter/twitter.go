@@ -19,7 +19,7 @@ const test = "http://localhost:3022/callback"
 // AuthTwitter ツイッターの認証開始
 func AuthTwitter(c echo.Context) error {
     api := connectAPI()
-    uri, _, error := api.AuthorizationURL(callback)
+    uri, _, error := api.AuthorizationURL(test)
     if error != nil {
         fmt.Println(error)
         return error
@@ -46,11 +46,11 @@ func Callback(c echo.Context) error {
     cookie := new(http.Cookie)
     cookie.Name = "twitter"
     cookie.Value = cred.Token + "," + cred.Secret
-    cookie.Expires = time.Now().Add(24 * 7 * time.Hour)
+    cookie.Expires = time.Now().Add(24 * time.Hour)
     c.SetCookie(cookie)
 
     // TODO: 2019/11/15 投稿フォームのページへリダイレクト
-    return c.JSON(http.StatusOK, "success")
+    return c.Redirect(http.StatusFound, "./tweet")
 }
 
 // PostTwitterAPI ツイッター投稿
@@ -64,14 +64,14 @@ func PostTwitterAPI(c echo.Context) error {
 
     api := anaconda.NewTwitterApi(token, secret)
 
-    message := c.QueryParam("message") + "\n #にゃイッター"
+    message := c.FormValue("message") + "\n #にゃイッター"
     tweet, error := api.PostTweet(message, nil)
     if error != nil {
         fmt.Println(error)
         return error
     }
-
-    return c.JSON(http.StatusOK, tweet.FullText)
+    link := "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdStr
+    return c.JSON(http.StatusOK, link)
 }
 
 // HasCookie クッキーあるかどうか確認

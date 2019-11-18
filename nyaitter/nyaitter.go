@@ -1,18 +1,19 @@
 package nyaitter
 
 import (
-    "github.com/labstack/echo"
-    "golang.org/x/exp/utf8string"
     "net/http"
     "strings"
+
+    "github.com/labstack/echo"
+    "golang.org/x/exp/utf8string"
 )
 
 var keyword = map[string]string{
     "な":      "にゃ",
-    "oh":      "ｵｵﾝ",
-    "oh...":   "ｵｵｵｵｵｵﾝ",
-    "ﾊﾞｷｭｰﾝ":   "ﾆｬｵｰﾝ",
-    "うま言う": "ちょw誰が上手いこと言えって言ったにゃww",
+    "oh":     "ｵｵﾝ",
+    "oh...":  "ｵｵｵｵｵｵﾝ",
+    "ﾊﾞｷｭｰﾝ": "ﾆｬｵｰﾝ",
+    "うま言う":   "ちょw誰が上手いこと言えって言ったにゃww",
 }
 
 // ReplaceMessge 文字列置換
@@ -29,6 +30,10 @@ func ReplaceMessge(c echo.Context) error {
 
     if strings.HasSuffix(message, "にゃ") {
         message += "ん"
+    }
+
+    if strings.HasSuffix(message, "だ") {
+        message += "にゃん"
     }
 
     return c.JSON(http.StatusOK, message)

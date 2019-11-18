@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Sample</title>
+    <link href="css/common.css" rel="stylesheet">
     <!-- BootstrapのCSS読み込み -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery読み込み -->
@@ -14,22 +14,19 @@
     <!-- BootstrapのJS読み込み -->
     <script src="js/bootstrap.min.js"></script>
 
-    <style>
-        .thumnail {
-            width: 40%;
-            max-width: 80%;
-            height: auto;
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-49394469-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
         }
-        .header {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-        }
-        .button_wrapper{
-            margin-top: 30px;
-            text-align:center;
-        }
-    </style>
+        gtag('js', new Date());
+
+        gtag('config', 'UA-49394469-4');
+    </script>
+
 </head>
 
 <body>
@@ -49,7 +46,14 @@
                     </div>
                 </div>
                 <div class="button_wrapper">
-                    <button type="submit" id="ajax" class="btn btn-dark">スタートにゃ</button>
+                    <p class="button">
+                        <button type="submit" id="start" class="btn btn-dark">スタートにゃ</button>
+                    </p>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/terms">利用規約</a></div>
+                    <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/privacypolicy">プライバシーポリシー</a></div>
                 </div>
             </div>
         </div>
@@ -58,7 +62,7 @@
     <script type="text/javascript">
         $(function() {
             // Ajax button click
-            $('#ajax').on('click', function() {
+            $('#start').on('click', function() {
                 $.ajax({
                         async: true,
                         url: 'check',
@@ -67,14 +71,14 @@
                     // Ajaxリクエストが成功した時発動
                     .done((data) => {
                         if (data == "no") {
-                            window.location.href="./auth";
+                            window.location.href = "./auth";
                         } else {
-                            window.location.href="./tweet";
+                            window.location.href = "./tweet";
                         }
                     })
                     // Ajaxリクエストが失敗した時発動
                     .fail((data) => {
-                        window.location.href="./auth";
+                        window.location.href = "./auth";
                     })
             });
         });
