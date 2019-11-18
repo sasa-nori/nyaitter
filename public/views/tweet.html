@@ -16,11 +16,7 @@
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-49394469-4"></script>
-    <script>
-        $(function() {
-            //$("#link").css("display", "none")
-        })
-    </script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -31,7 +27,6 @@
 
         gtag('config', 'UA-49394469-4');
     </script>
-
 </head>
 
 <body>
@@ -52,16 +47,31 @@
                     <span class="help-block">確認するにゃ</span>
                     <textarea id="preview_field" class="form-control" rows="3" readonly></textarea>
                 </p>
-                <div class="button_wrapper">
+                <div class="button_wrapper" id="tweet_button">
                     <p class="button">
-                        <button type="submit" id="tweet" class="btn btn-primary">ツイートにゃ</button>
+                        <div id="tweet_button_wrap">
+                            <button type="submit" id="tweet" class="btn btn-primary">ツイートにゃ</button>
+                        </div>
+                        <div id="indicator_button_wrap" style="display: none;">
+                            <button class="btn btn-primary" id="indicator" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Loading...
+                                  </button>
+                        </div>
                     </p>
                 </div>
-                <div class="button_wrapper">
-                    <p class="text_filed">
-                        <a id="link" href="#" style="display: none;" target="_blank">ツイートを確認しに行くにゃ</a>
-                    </p>
+                <div class="alert alert-primary" id="complete" style="display:none;" role="alert">
+                    <strong>成功にゃ！！</strong>
+                    <a id="link_btn" href="#" target="_blank">ツイートを確認しに行くにゃ</a>
                 </div>
+
+                <blockquote class="twitter-tweet twitter-tweet-error" data-twitter-extracted-i1574057328956400656="true">
+                    <p lang="ja" dir="ltr" id="tweet_text">
+                        <a id="link_tweet" href="#"></a>
+                    </p>
+                </blockquote>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
                 <div class="d-flex justify-content-center">
                     <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/terms">利用規約</a></div>
                     <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/privacypolicy">プライバシーポリシー</a></div>
@@ -107,6 +117,8 @@
                     alert("失敗にゃ。\n入力されてないにゃ")
                     return
                 }
+                $("#tweet_button_wrap").css("display", "none")
+                $("#indicator_button_wrap").css("display", "block")
                 $.ajax({
                         async: true,
                         url: 'post',
@@ -117,9 +129,13 @@
                     })
                     // Ajaxリクエストが成功した時発動
                     .done((data, textStatus, jqXHR) => {
+                        $("#tweet_button_wrap").css("display", "block")
+                        $("#indicator_button_wrap").css("display", "none")
                         if (jqXHR.status == 200) {
-                            $("#link").attr("href", data)
-                            $("#link").css("display", "block")
+                            $("#link_btn").attr("href", data)
+                            $("#link_tweet").attr("href", data)
+                            $("#complete").css("display", "block")
+                            twttr.widgets.load();
                         } else {
                             window.location.href = "./auth";
                         }
@@ -131,6 +147,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>
