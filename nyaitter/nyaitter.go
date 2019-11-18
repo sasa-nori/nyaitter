@@ -32,5 +32,9 @@ func ReplaceMessge(c echo.Context) error {
 		message += "ん"
 	}
 
+	if strings.HasSuffix(message, "だ") {
+		message += "にゃん"
+	}
+
 	return c.JSON(http.StatusOK, message)
 }
