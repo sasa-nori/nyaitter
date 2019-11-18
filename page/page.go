@@ -1,14 +1,14 @@
 package page
 
 import (
-	"net/http"
+    "net/http"
 
-	"github.com/labstack/echo"
+    "github.com/labstack/echo"
 )
 
 // Index index.html
 func Index(c echo.Context) error {
-	return c.Render(http.StatusOK, "index.html", nil)
+    return c.Render(http.StatusOK, "index.html", nil)
 }
 
 // Tweet tweet.html
