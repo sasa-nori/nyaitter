@@ -34,19 +34,22 @@
         <div class="row">
             <div style="padding:15px">
                 <img class="d-flex align-self-end mr-3 header" src="./header.png">
-                <p class="text_filed">
+
+                <form class="text_filed">
                     <span class="help-block">入力するにゃ</span>
-                    <textarea id="input_field" class="form-control text_filed" rows="3"></textarea>
-                </p>
+                    <textarea id="input_field" class="form-control" rows="3" maxlength="120"></textarea>
+                    <h6 class="pull-right text-right" id="count_message">0 / 120</h6>
+                </form>
+
                 <div class="button_wrapper">
                     <p class="button">
                         <button type="submit" id="preview" class="btn btn-info">プレビューにゃ</button>
                     </p>
                 </div>
-                <p class="text_filed">
+                <form class="text_filed">
                     <span class="help-block">確認するにゃ</span>
                     <textarea id="preview_field" class="form-control" rows="3" readonly></textarea>
-                </p>
+                </form>
                 <div class="button_wrapper" id="tweet_button">
                     <p class="button">
                         <div id="tweet_button_wrap">
@@ -81,6 +84,13 @@
     </div>
 
     <script type="text/javascript">
+        $('#input_field').keyup(function() {
+            var text_max = 120;
+            var text_length = $('#input_field').val().length;
+
+            document.getElementById('count_message').innerHTML = text_length + " / " + text_max
+        });
+
         $(function() {
             // Ajax button click
             $('#preview').on('click', function() {
