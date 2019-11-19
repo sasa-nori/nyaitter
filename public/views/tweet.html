@@ -7,10 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/common.css" rel="stylesheet">
+
     <!-- BootstrapのCSS読み込み -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery読み込み -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <!-- BootstrapのJS読み込み -->
     <script src="js/bootstrap.min.js"></script>
 
@@ -82,10 +84,16 @@
 
     <script type="text/javascript">
         $(function() {
+            var input = $.cookie('message');
+            if (input != null) {
+                $('#input_field').val(input)
+                $('#input_field').trigger("keyup")
+            }
+        });
+        $(function() {
             var $textarea = $('#input_field');
             var lineHeight = parseInt($textarea.css('lineHeight'));
             $textarea.on('input', function(e) {
-                console.log($(this).val())
                 var lines = ($(this).val() + '\n').match(/\n/g).length + 1;
                 $(this).height(lineHeight * lines);
             });
@@ -111,12 +119,8 @@
         }
         $('#input_field').keyup(function() {
             loadInputTextCount();
-
             var input = $('#input_field').val()
-            if (input == "" || input == null) {
-                $('#preview_field').val("")
-                return
-            }
+
             $.ajax({
                     async: true,
                     url: 'replace',
@@ -138,7 +142,7 @@
                     }
                 })
                 // Ajaxリクエストが失敗した時発動
-                .fail((data) => {
+                .fail((data, textStatus, jqXHR) => {
                     alert("失敗にゃ\nごめんにゃ")
                 })
         });
@@ -146,6 +150,7 @@
         $(function() {
             $('#tweet').on('click', function() {
                 var tweet = $('#preview_field').val()
+                var input = $('#input_field').val()
                 if (tweet == "") {
                     alert("失敗にゃ\n入力されてないにゃ")
                     return
@@ -157,25 +162,33 @@
                     url: 'post',
                     type: 'POST',
                     data: {
-                        "message": tweet
+                        "message": tweet,
+                        "input": input
                     }
                 })
 
                 // Ajaxリクエストが成功した時発動
                 .done((data, textStatus, jqXHR) => {
-                        $("#tweet_button_wrap").css("display", "block")
-                        $("#indicator_button_wrap").css("display", "none")
-                        if (jqXHR.status == 200) {
-                            $("#link_btn").attr("href", data)
-                            $("#link_tweet").attr("href", data)
-                            $("#complete").css("display", "block")
-                        } else {
-                            window.location.href = "./auth";
+                        if (jqXHR.status == 202) {
+                            var res = confirm("また認証してほしいにゃ")
+                            if (res) {
+                                window.location.href = "./auth";
+                            }
+                            return
                         }
+
+                        $("#link_btn").attr("href", data)
+                        $("#link_tweet").attr("href", data)
+                        $("#complete").css("display", "block")
+
                     })
                     // Ajaxリクエストが失敗した時発動
-                    .fail((data) => {
+                    .fail((data, textStatus, jqXHR) => {
                         alert("失敗にゃ\nごめんにゃ")
+
+                    }).always((data) => {
+                        $("#tweet_button_wrap").css("display", "block")
+                        $("#indicator_button_wrap").css("display", "none")
                     })
             });
         });
