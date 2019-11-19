@@ -5,7 +5,9 @@ import (
     "fmt"
     "io/ioutil"
     "net/http"
+    "net/url"
     "os"
+    "regexp"
     "strings"
     "time"
 
@@ -74,13 +76,27 @@ func PostTwitterAPI(c echo.Context) error {
     api := anaconda.NewTwitterApi(token.(string), secret.(string))
 
     message := c.FormValue("message")
-    tweet, error := api.PostTweet(message, nil)
+    reply := c.FormValue("reply")
+    v := make(url.Values)
+    if reply != "" {
+        r := regexp.MustCompile(`\w+`)
+        links := r.FindAllStringSubmatch(reply, -1)
+        if len(links) > 4 {
+            replyID := links[5][0]
+            userID := links[3][0]
+            message = "@" + userID + "\n" + message
+            v.Add("in_reply_to_status_id", replyID)
+        }
+    }
+
+    tweet, error := api.PostTweet(message, v)
     if error != nil {
         fmt.Println(error)
         return c.JSON(http.StatusAccepted, "redirect")
     }
     link := "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdStr
     clearCookie(c, "message")
+
     return c.JSON(http.StatusOK, link)
 }
 

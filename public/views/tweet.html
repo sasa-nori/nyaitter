@@ -37,7 +37,6 @@
         <div class="row">
             <div style="padding:15px">
                 <img class="d-flex align-self-end mr-3 header" src="./header.png">
-
                 <form class="text_filed">
                     <span class="help-block">入力するにゃ</span>
                     <textarea id="input_field" class="form-control" rows="2" maxlength="120"></textarea>
@@ -48,6 +47,10 @@
                     <span class="help-block">プレビューにゃ</span>
                     <textarea id="preview_field" class="form-control" rows="2" readonly></textarea>
                     <h6 class="pull-right text-right" id="preview_count_message">0 / 140</h6>
+                </form>
+                <form class="text_filed">
+                    <span class="help-block">リプライするツイートのリンクを入力するにゃ</span>
+                    <textarea id="reply_field" class="form-control" rows="1" maxlength="120"></textarea>
                 </form>
                 <div class="button_wrapper" id="tweet_button">
                     <p class="button">
@@ -100,14 +103,14 @@
         });
 
         function loadInputTextCount() {
-            var text_max = 120;
+            var text_max = 110;
             var text_length = $('#input_field').val().length;
 
             document.getElementById('input_count_message').innerHTML = text_length + " / " + text_max
         }
 
         function loadPreviewTextCount() {
-            var preview_text_max = 140;
+            var preview_text_max = 125;
             var preview_text_length = $('#preview_field').val().length;
 
             document.getElementById('preview_count_message').innerHTML = preview_text_length + " / " + preview_text_max
@@ -151,6 +154,7 @@
             $('#tweet').on('click', function() {
                 var tweet = $('#preview_field').val()
                 var input = $('#input_field').val()
+                var link = $('#reply_field').val()
                 if (tweet == "") {
                     alert("失敗にゃ\n入力されてないにゃ")
                     return
@@ -163,7 +167,8 @@
                     type: 'POST',
                     data: {
                         "message": tweet,
-                        "input": input
+                        "input": input,
+                        "reply": link
                     }
                 })
 
