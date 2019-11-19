@@ -13,5 +13,5 @@ func Index(c echo.Context) error {
 
 // Tweet tweet.html
 func Tweet(c echo.Context) error {
-    return c.Render(http.StatusOK , "tweet.html", nil)
+    return c.Render(http.StatusOK, "tweet.html", nil)
 }

@@ -2,15 +2,17 @@ package twitter
 
 import (
     "encoding/json"
-	"os"
     "fmt"
     "io/ioutil"
     "net/http"
+    "os"
     "strings"
     "time"
 
     "github.com/ChimeraCoder/anaconda"
     "github.com/garyburd/go-oauth/oauth"
+    session "github.com/ipfans/echo-session"
+
     "github.com/labstack/echo"
 )
 
@@ -49,43 +51,46 @@ func Callback(c echo.Context) error {
     }
     api = anaconda.NewTwitterApi(cred.Token, cred.Secret)
 
-    cookie := new(http.Cookie)
-    cookie.Name = "twitter"
-    cookie.Value = cred.Token + "," + cred.Secret
-    cookie.Expires = time.Now().Add(24 * time.Hour)
-    c.SetCookie(cookie)
+    sess := session.Default(c)
+    sess.Set("token", cred.Token)
+    sess.Set("secret", cred.Secret)
+    sess.Save()
 
-    // TODO: 2019/11/15 投稿フォームのページへリダイレクト
     return c.Redirect(http.StatusFound, "./tweet")
 }
 
 // PostTwitterAPI ツイッター投稿
 func PostTwitterAPI(c echo.Context) error {
-    cookie, _ := c.Cookie("twitter")
-    if cookie == nil {
-        return AuthTwitter(c)
-    }
-    token := strings.Split(cookie.Value, ",")[0]
-    secret := strings.Split(cookie.Value, ",")[1]
+    input := c.FormValue("input")
+    writeCookie(c, "message", input)
+    sess := session.Default(c)
 
-    api := anaconda.NewTwitterApi(token, secret)
+    token := sess.Get("token")
+    secret := sess.Get("secret")
+    if token == nil || secret == nil {
+        c.Redirect(http.StatusFound, "./tweet")
+    }
+    api := anaconda.NewTwitterApi(token.(string), secret.(string))
 
     message := c.FormValue("message")
     tweet, error := api.PostTweet(message, nil)
     if error != nil {
         fmt.Println(error)
-        return error
+        return c.JSON(http.StatusAccepted, "redirect")
     }
     link := "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdStr
+    clearCookie(c, "message")
     return c.JSON(http.StatusOK, link)
 }
 
 // HasCookie クッキーあるかどうか確認
 func HasCookie(c echo.Context) error {
-    cookie, _ := c.Cookie("twitter")
-    if cookie == nil {
+    session := session.Default(c)
+    token := session.Get("token")
+    if token == nil {
         return c.JSON(http.StatusNoContent, "no")
     }
+
     return c.JSON(http.StatusOK, "has data")
 }
 
@@ -106,6 +111,21 @@ func connectAPI() *anaconda.TwitterApi {
 
     // 認証
     return anaconda.NewTwitterApi("", "")
+}
+
+func writeCookie(c echo.Context, name string, value string) {
+    cookie := new(http.Cookie)
+    cookie.Name = name
+    cookie.Value = value
+    cookie.Expires = time.Now().Add(24 * time.Hour)
+    c.SetCookie(cookie)
+}
+
+func clearCookie(c echo.Context, name string) {
+    cookie := new(http.Cookie)
+    cookie.Name = name
+    cookie.Value = ""
+    c.SetCookie(cookie)
 }
 
 // Account はTwitterの認証用の情報
