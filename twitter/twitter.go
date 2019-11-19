@@ -27,12 +27,13 @@ func AuthTwitter(c echo.Context) error {
     if strings.Contains(hostname, "local") {
         url = test
     }
+    // 認証
     uri, _, error := api.AuthorizationURL(url)
     if error != nil {
         fmt.Println(error)
         return error
     }
-
+    // 成功したらTwitterのログイン画面へ
     return c.Redirect(http.StatusFound, uri)
 }
 
@@ -68,7 +69,7 @@ func PostTwitterAPI(c echo.Context) error {
     token := sess.Get("token")
     secret := sess.Get("secret")
     if token == nil || secret == nil {
-        c.Redirect(http.StatusFound, "./tweet")
+        return c.JSON(http.StatusAccepted, "redirect")
     }
     api := anaconda.NewTwitterApi(token.(string), secret.(string))
 
