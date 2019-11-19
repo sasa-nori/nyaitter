@@ -2,6 +2,7 @@ package twitter
 
 import (
     "encoding/json"
+	"os"
     "fmt"
     "io/ioutil"
     "net/http"
@@ -19,7 +20,12 @@ const test = "http://localhost:3022/callback"
 // AuthTwitter ツイッターの認証開始
 func AuthTwitter(c echo.Context) error {
     api := connectAPI()
-    uri, _, error := api.AuthorizationURL(callback)
+    var url = callback
+    hostname, _ := os.Hostname()
+    if strings.Contains(hostname, "local") {
+        url = test
+    }
+    uri, _, error := api.AuthorizationURL(url)
     if error != nil {
         fmt.Println(error)
         return error
@@ -64,7 +70,7 @@ func PostTwitterAPI(c echo.Context) error {
 
     api := anaconda.NewTwitterApi(token, secret)
 
-    message := c.FormValue("message") + "\n #にゃイッター"
+    message := c.FormValue("message")
     tweet, error := api.PostTweet(message, nil)
     if error != nil {
         fmt.Println(error)
