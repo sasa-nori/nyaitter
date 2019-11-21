@@ -14,7 +14,13 @@ var keyword = map[string]string{
     "oh...":  "ｵｵｵｵｵｵﾝ",
     "ﾊﾞｷｭｰﾝ": "ﾆｬｵｰﾝ",
     "うま言う":   "ちょw誰が上手いこと言えって言ったにゃww",
-    "猫" : "にゃーん (=･ω･=)",
+    "猫":      "にゃーん (=･ω･=)",
+    "まだ":     "まだにゃ",
+    "した":     "したにゃ",
+    "った":     "ったにゃ",
+    "です":     "ですにゃ",
+    "よう":     "ようにゃ",
+    "IT藤原猫":  "は゛ぁ゛あ゛ぁ゛ぁ゛ぁ゛猫゛か゛わ゛い゛い゛に゛ゃ゛ぁ゛\n#IT藤原猫\n",
 }
 
 // ReplaceMessge 文字列置換
@@ -33,9 +39,6 @@ func ReplaceMessge(c echo.Context) error {
         message += "ん"
     }
 
-    if strings.HasSuffix(message, "だ") {
-        message += "にゃん"
-    }
     message += "\n#にゃイッター"
 
     if utf8string.NewString(message).RuneCount() >= 140 {
