@@ -55,6 +55,7 @@
                 <div class="button_wrapper" id="tweet_button">
                     <p class="button">
                         <div id="tweet_button_wrap">
+                            <button type="submit" id="clear" class="btn btn-outline-primary">クリアにゃ</button>
                             <button type="submit" id="tweet" class="btn btn-primary">ツイートにゃ</button>
                         </div>
                         <div id="indicator_button_wrap" style="display: none;">
@@ -70,11 +71,6 @@
                     <a id="link_btn" href="#" target="_blank">ツイートを確認しに行くにゃ</a>
                 </div>
 
-                <blockquote class="twitter-tweet twitter-tweet-error" data-twitter-extracted-i1574057328956400656="true">
-                    <p lang="ja" dir="ltr" id="tweet_text">
-                        <a id="link_tweet" href="#"></a>
-                    </p>
-                </blockquote>
                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
                 <div class="d-flex justify-content-center">
@@ -149,7 +145,13 @@
                     alert("失敗にゃ\nごめんにゃ")
                 })
         });
-
+        $(function() {
+            $('#clear').on('click', function() {
+                $('#input_field').val("")
+                $('#preview_field').val("")
+                $('#reply_field').val("")
+            })
+        });
         $(function() {
             $('#tweet').on('click', function() {
                 var tweet = $('#preview_field').val()
@@ -183,7 +185,6 @@
                         }
 
                         $("#link_btn").attr("href", data)
-                        $("#link_tweet").attr("href", data)
                         $("#complete").css("display", "block")
 
                     })
