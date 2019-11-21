@@ -47,7 +47,7 @@
                 <img class="d-flex align-self-end mr-3 header" src="./header.png">
                 <form class="text_filed">
                     <span class="help-block">入力するにゃ</span>
-                    <textarea id="input_field" class="form-control" rows="2" maxlength="120"></textarea>
+                    <textarea id="input_field" class="form-control" rows="2" maxlength="120">{{.Tweet}}</textarea>
                     <h6 class="pull-right text-right" id="input_count_message">0 / 120</h6>
                 </form>
 
@@ -58,7 +58,7 @@
                 </form>
                 <form class="text_filed">
                     <span class="help-block">リプライするツイートのリンクを入力するにゃ</span>
-                    <textarea id="reply_field" class="form-control" rows="1" maxlength="120"></textarea>
+                    <textarea id="reply_field" class="form-control" rows="1" maxlength="120">{{.Reply}}</textarea>
                 </form>
                 <div class="button_wrapper" id="tweet_button">
                     <p class="button">
@@ -91,11 +91,7 @@
 
     <script type="text/javascript">
         $(function() {
-            var input = $.cookie('message');
-            if (input != null) {
-                $('#input_field').val(input)
-                $('#input_field').trigger("keyup")
-            }
+            $('#input_field').trigger("keyup")
         });
         $(function() {
             var $textarea = $('#input_field');
@@ -158,6 +154,8 @@
                 $('#input_field').val("")
                 $('#preview_field').val("")
                 $('#reply_field').val("")
+                document.cookie = "message=; expires=0"
+                document.cookie = "reply=; expires=0"
             })
         });
         $(function() {

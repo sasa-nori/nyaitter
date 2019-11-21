@@ -19,5 +19,22 @@ func Tweet(c echo.Context) error {
     if token == nil {
         return c.Redirect(http.StatusFound, "./")
     }
-    return c.Render(http.StatusOK, "tweet.html", nil)
+    preData := new(PreData)
+    preData.Tweet = readCookie(c , "message")
+    preData.Reply = readCookie(c, "reply")
+    return c.Render(http.StatusOK, "tweet.html", preData)
+}
+
+func readCookie(c echo.Context, name string) string {
+    cookie, error := c.Cookie(name)
+    if error != nil {
+        return ""
+    }
+    return cookie.Value
+}
+
+// PreData 過去の情報
+type PreData struct {
+    Tweet string
+    Reply string
 }

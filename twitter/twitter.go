@@ -65,18 +65,20 @@ func Callback(c echo.Context) error {
 // PostTwitterAPI ツイッター投稿
 func PostTwitterAPI(c echo.Context) error {
     input := c.FormValue("input")
-    writeCookie(c, "message", input)
     sess := session.Default(c)
-
     token := sess.Get("token")
     secret := sess.Get("secret")
+
+    writeCookie(c, "message", input)
+    reply := c.FormValue("reply")
+    writeCookie(c, "reply", reply)
+
     if token == nil || secret == nil {
         return c.JSON(http.StatusAccepted, "redirect")
     }
     api := anaconda.NewTwitterApi(token.(string), secret.(string))
 
     message := c.FormValue("message")
-    reply := c.FormValue("reply")
     v := make(url.Values)
     if reply != "" {
         r := regexp.MustCompile(`\w+`)
@@ -96,7 +98,7 @@ func PostTwitterAPI(c echo.Context) error {
     }
     link := "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdStr
     clearCookie(c, "message")
-
+    clearCookie(c, "reply")
     return c.JSON(http.StatusOK, link)
 }
 
@@ -135,6 +137,7 @@ func writeCookie(c echo.Context, name string, value string) {
     cookie.Name = name
     cookie.Value = value
     cookie.Expires = time.Now().Add(24 * time.Hour)
+    cookie.Path = "/"
     c.SetCookie(cookie)
 }
 
@@ -142,6 +145,7 @@ func clearCookie(c echo.Context, name string) {
     cookie := new(http.Cookie)
     cookie.Name = name
     cookie.Value = ""
+    cookie.Path = "/"
     c.SetCookie(cookie)
 }
 
