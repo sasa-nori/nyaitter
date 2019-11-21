@@ -100,8 +100,8 @@ func PostTwitterAPI(c echo.Context) error {
     return c.JSON(http.StatusOK, link)
 }
 
-// HasCookie クッキーあるかどうか確認
-func HasCookie(c echo.Context) error {
+// HasSessionData セッションデータあるかどうか確認
+func HasSessionData(c echo.Context) error {
     session := session.Default(c)
     token := session.Get("token")
     if token == nil {
