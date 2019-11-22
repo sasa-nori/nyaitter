@@ -2,95 +2,95 @@
 <html lang="ja">
 
 <head>
-    <title>にゃイッター</title>
-    <!---Twitter Card-->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content="@sasa_nss_app" />
-    <meta property="og:url" content="https://cat.newstyleservice.net" />
-    <meta property="og:title" content="にゃイッター" />
-    <meta property="og:description" content="猫語でツイートしてくれるアプリ！" />
-    <meta property="og:image" content="https://cat.newstyleservice.net/twitter-card.png" />
+  <title>にゃイッター</title>
+  <!---Twitter Card-->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@sasa_nss_app" />
+  <meta property="og:url" content="https://cat.newstyleservice.net" />
+  <meta property="og:title" content="にゃイッター" />
+  <meta property="og:description" content="猫語でツイートしてくれるアプリ！" />
+  <meta property="og:image" content="https://cat.newstyleservice.net/twitter-card.png" />
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/common.css" rel="stylesheet">
-    <!-- BootstrapのCSS読み込み -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery読み込み -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- BootstrapのJS読み込み -->
-    <script src="js/bootstrap.min.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/common.css" rel="stylesheet">
+  <!-- BootstrapのCSS読み込み -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery読み込み -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- BootstrapのJS読み込み -->
+  <script src="js/bootstrap.min.js"></script>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-49394469-4"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-49394469-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
 
-        gtag('config', 'UA-49394469-4');
-    </script>
-    <script data-ad-client="ca-pub-1070562852133600" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    gtag('config', 'UA-49394469-4');
+  </script>
+  <script data-ad-client="ca-pub-1070562852133600" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div style="padding:15px">
-                <img class="d-flex align-self-end mr-3 header" src="./header.png">
-                <div class="card">
-                    <h5 class="mt-0">この人が作りました</h5>
-                    <div class="media">
-                        <img class="d-flex align-self-end mr-3 thumnail" src="https://avatars2.githubusercontent.com/u/40590821?s=460&v=4" alt="Generic placeholder image">
-                        <div class="media-body">
-                            <p class="mb-0">笹のり 400エラー</p>
-                            <p class="mb-0"><a href="https://twitter.com/sasa_nss_app">@sasa_nss_app</a></p>
-                            <p class="mb-0"><a href="https://github.com/noriyuki-sasagawa">noriyuki-sasagawa</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="button_wrapper">
-                    <p class="button">
+  <div class="container-fluid">
+    <div class="row">
+      <div style="padding:15px">
+        <img class="d-flex align-self-end mr-3 header" src="./header.png">
+        <div class="card">
+          <h5 class="mt-0">この人が作りました</h5>
+          <div class="media">
+            <img class="d-flex align-self-end mr-3 thumnail" src="https://avatars2.githubusercontent.com/u/40590821?s=460&v=4" alt="Generic placeholder image">
+            <div class="media-body">
+              <p class="mb-0">笹のり 400エラー</p>
+              <p class="mb-0"><a href="https://twitter.com/sasa_nss_app">@sasa_nss_app</a></p>
+              <p class="mb-0"><a href="https://github.com/noriyuki-sasagawa">noriyuki-sasagawa</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="button_wrapper">
+          <p class="button">
                         <button type="submit" id="start" class="btn btn-dark">スタートにゃ</button>
                     </p>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/terms">利用規約</a></div>
-                    <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/privacypolicy">プライバシーポリシー</a></div>
-                </div>
-            </div>
         </div>
-    </div>
 
-    <script type="text/javascript">
-        $(function() {
-            // Ajax button click
-            $('#start').on('click', function() {
-                $.ajax({
-                        async: true,
-                        url: 'check',
-                        type: 'POST',
-                    })
-                    // Ajaxリクエストが成功した時発動
-                    .done((data, textStatus, jqXHR) => {
-                        if (jqXHR.status == 200) {
-                            window.location.href = "./tweet";
-                        } else {
-                            window.location.href = "./auth";
-                        }
-                    })
-                    // Ajaxリクエストが失敗した時発動
-                    .fail((data) => {
-                        window.location.href = "./auth";
-                    })
-            });
-        });
-    </script>
+        <div class="d-flex justify-content-center">
+          <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/terms">利用規約</a></div>
+          <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/privacypolicy">プライバシーポリシー</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(function () {
+      // Ajax button click
+      $('#start').on('click', function () {
+        $.ajax({
+          async: true,
+          url: 'check',
+          type: 'POST',
+        })
+          // Ajaxリクエストが成功した時発動
+          .done((data, textStatus, jqXHR) => {
+            if (jqXHR.status == 200) {
+              window.location.href = "./tweet";
+            } else {
+              window.location.href = "./auth";
+            }
+          })
+          // Ajaxリクエストが失敗した時発動
+          .fail((data) => {
+            window.location.href = "./auth";
+          })
+      });
+    });
+  </script>
 </body>
 
 </html>
