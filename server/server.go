@@ -25,6 +25,7 @@ func RunAPIServer() {
     e.Static("/css", "public/views/css")
     e.Static("/js", "public/views/js")
     e.File("/header.png", "public/views/header.png")
+    e.File("/twitter-card.png", "public/views/twitter-card.png")
     e.Renderer = t
     //セッションを設定
     store := session.NewCookieStore([]byte("secret-key"))
