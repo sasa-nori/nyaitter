@@ -90,12 +90,23 @@ func PostTwitterAPI(c echo.Context) error {
             v.Add("in_reply_to_status_id", replyID)
         }
     }
+    image := c.FormValue("image")
+    if image != "" {
+        b64data := image[strings.IndexByte(image, ',')+1:]
+        media, error := api.UploadMedia(b64data)
+        if error != nil {
+            fmt.Println(error)
+            return error
+        }
+        v.Add("media_ids", media.MediaIDString)
+    }
 
     tweet, error := api.PostTweet(message, v)
     if error != nil {
         fmt.Println(error)
         return c.JSON(http.StatusAccepted, "redirect")
     }
+
     link := "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdStr
     clearCookie(c, "message")
     clearCookie(c, "reply")
