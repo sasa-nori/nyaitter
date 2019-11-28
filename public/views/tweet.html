@@ -21,6 +21,7 @@
   <!-- jQuery読み込み -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <!-- BootstrapのJS読み込み -->
   <script src="js/bootstrap.min.js"></script>
 
@@ -79,7 +80,11 @@
           <a id="link_btn" href="#" target="_blank">ツイートを確認しに行くにゃ</a>
         </div>
 
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <div>
+          <table id="readme" class="table">
+
+            </table>
+        </div>
 
         <div class="d-flex justify-content-center">
           <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/terms">利用規約</a></div>
@@ -90,6 +95,20 @@
   </div>
 
   <script type="text/javascript">
+    $(function () {
+      $.ajax({
+        type: 'GET',
+        url: 'https://raw.githubusercontent.com/noriyuki-sasagawa/nyaitter/develop/README.md',
+        dataType: 'html',
+        success: function (data) {
+          console.log(data)
+          $('#readme').append(marked(data).split("table>")[1])
+        },
+        error: function () {
+          // notthing
+        }
+      });
+    })
     $(function () {
       $('#input_field').trigger("keyup")
     });
@@ -154,6 +173,7 @@
         $('#input_field').val("")
         $('#preview_field').val("")
         $('#reply_field').val("")
+        $('#complete').css("display", "none")
         document.cookie = "message=; expires=0"
         document.cookie = "reply=; expires=0"
       })

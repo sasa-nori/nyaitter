@@ -20,8 +20,9 @@ func Tweet(c echo.Context) error {
         return c.Redirect(http.StatusFound, "./")
     }
     preData := new(PreData)
-    preData.Tweet = readCookie(c , "message")
+    preData.Tweet = readCookie(c, "message")
     preData.Reply = readCookie(c, "reply")
+
     return c.Render(http.StatusOK, "tweet.html", preData)
 }
 
