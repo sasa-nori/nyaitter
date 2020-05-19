@@ -18,7 +18,7 @@ import (
     "github.com/labstack/echo"
 )
 
-const callback = "https://cat.newstyleservice.net/callback"
+const callback = "https://cat.ss-n.app/callback"
 const test = "http://localhost:3022/callback"
 
 // AuthTwitter ツイッターの認証開始
