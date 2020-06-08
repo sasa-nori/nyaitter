@@ -9,7 +9,13 @@ import (
 
 // Index index.html
 func Index(c echo.Context) error {
-    return c.Render(http.StatusOK, "index.html", nil)
+    session := session.Default(c)
+    token := session.Get("token")
+    // トークンがないときだけトップページ表示
+    if token == nil {
+        return c.Render(http.StatusOK, "index.html", nil)
+    }
+    return c.Redirect(http.StatusFound, "./tweet")
 }
 
 // Tweet tweet.html
