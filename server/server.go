@@ -29,8 +29,8 @@ func RunAPIServer() {
     e.Renderer = t
     //セッションを設定
     store := session.NewCookieStore([]byte("secret-key"))
-    //セッション保持時間
-    store.MaxAge(86400)
+    //セッション保持時間 1ヶ月 2592000, 1日 86400
+    store.MaxAge(2592000)
     e.Use(session.Sessions("ESESSION", store))
 
     e.GET("/", page.Index)
