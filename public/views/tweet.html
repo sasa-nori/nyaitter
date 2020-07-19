@@ -50,20 +50,33 @@
           <span class="help-block">入力するにゃ</span>
           <textarea id="input_field" class="form-control" rows="2" maxlength="120">{{.Tweet}}</textarea>
           <h6 class="pull-right text-right" id="input_count_message">0 / 120</h6>
-        </form>
-
-        <form class="text_filed">
           <span class="help-block">プレビューにゃ</span>
           <textarea id="preview_field" class="form-control" rows="2" style="background: #eeeeee;"></textarea>
           <h6 class="pull-right text-right" id="preview_count_message">0 / 140</h6>
-        </form>
-        <form class="text_filed">
-          <span class="help-block">リプライするツイートのリンクを入力するにゃ</span>
-          <textarea id="reply_field" class="form-control" rows="1" maxlength="120">{{.Reply}}</textarea>
-        </form>
 
-        <input id="file-sample" type="file">
-        <img id="file-preview">
+          <div class="justify-content-center">
+            <span class="help-block">画像も入れられるにゃ</span>
+            <div class="card">
+               <div class="thumbnail"><img id="imagePreview" style="width:40%"></img></div>
+            </div>
+            <div class="input-group">
+                <label class="input-group-btn">
+                    <span class="btn btn-outline-dark">
+                        画像を選ぶにゃ<input type="file" style="display:none" id="inputFile" class="uploadFile">
+                    </span>
+
+                </label>
+                <label class="input-group-btn">
+                    <span class="btn btn-outline-secondary">
+                        キャンセルにゃ<input type="submit" style="display:none" id="inputFileReset" class="uploadFile">
+                    </span>
+                </label>
+            </div>
+          </div>
+        <div  style="margin-top:30px;"></div>
+        <span class="help-block">リプライするツイートのリンクを入力するにゃ</span>
+        <textarea id="reply_field" class="form-control" rows="1" maxlength="120">{{.Reply}}</textarea>
+        </form>
 
         <div class="button_wrapper" id="tweet_button">
           <p class="button">
@@ -86,7 +99,7 @@
 
 
         <div>
-          <table id="readme" class="table">
+          <table id="readme" class="table justify-content-center">
 
             </table>
         </div>
@@ -100,7 +113,13 @@
   </div>
 
   <script type="text/javascript">
-    document.getElementById('file-sample').addEventListener('change', function (e) {
+   document.getElementById('inputFileReset').addEventListener('click', function() {
+    var elem = document.getElementById('inputFile');
+      elem.value = '';
+      elem.dispatchEvent(new Event('change'));
+      $('#imagePreview').remove();
+    });
+    document.getElementById('inputFile').addEventListener('change', function (e) {
       // 1枚だけ表示する
       var file = e.target.files[0];
 
@@ -111,7 +130,7 @@
         var dataUri = this.result;
 
         // img要素に表示
-        var img = document.getElementById('file-preview');
+        var img = document.getElementById('imagePreview');
         img.src = dataUri;
       }
 
