@@ -36,6 +36,7 @@ func RunAPIServer() {
     e.GET("/", page.Index)
     e.GET("/tweet", page.Tweet)
     e.GET("/auth", twitter.AuthTwitter)
+    e.GET("/timeline", twitter.Timeline)
     e.GET("/callback", twitter.Callback)
     e.POST("/check", twitter.HasSessionData)
     e.POST("/post", twitter.PostTwitterAPI)
