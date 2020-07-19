@@ -50,22 +50,39 @@
           <span class="help-block">入力するにゃ</span>
           <textarea id="input_field" class="form-control" rows="2" maxlength="120">{{.Tweet}}</textarea>
           <h6 class="pull-right text-right" id="input_count_message">0 / 120</h6>
-        </form>
-
-        <form class="text_filed">
           <span class="help-block">プレビューにゃ</span>
           <textarea id="preview_field" class="form-control" rows="2" style="background: #eeeeee;"></textarea>
           <h6 class="pull-right text-right" id="preview_count_message">0 / 140</h6>
+
+          <div class="justify-content-center">
+            <span class="help-block">画像も入れられるにゃ</span>
+            <div class="card">
+               <div class="thumbnail"><img id="imagePreview" style="width:40%"></img></div>
+            </div>
+            <div class="input-group">
+                <label class="input-group-btn">
+                    <span class="btn btn-outline-dark">
+                        画像を選ぶにゃ<input type="file" style="display:none" id="inputFile" class="uploadFile">
+                    </span>
+
+                </label>
+                <label class="input-group-btn">
+                    <span class="btn btn-outline-secondary">
+                        キャンセルにゃ<input type="submit" style="display:none" id="inputFileReset" class="uploadFile">
+                    </span>
+                </label>
+            </div>
+          </div>
+        <div  style="margin-top:30px;"></div>
+        <span class="help-block">リプライするツイートのリンクを入力するにゃ</span>
+        <textarea id="reply_field" class="form-control" rows="1" maxlength="120">{{.Reply}}</textarea>
         </form>
-        <form class="text_filed">
-          <span class="help-block">リプライするツイートのリンクを入力するにゃ</span>
-          <textarea id="reply_field" class="form-control" rows="1" maxlength="120">{{.Reply}}</textarea>
-        </form>
+
         <div class="button_wrapper" id="tweet_button">
           <p class="button">
                         <div id="tweet_button_wrap">
-                            <button type="submit" id="clear" class="btn btn-outline-primary">クリアにゃ</button>
-                            <button type="submit" id="tweet" class="btn btn-primary">ツイートにゃ</button>
+                            <button type="submit" id="clear" data-toggle="collapse" class="btn btn-outline-primary">クリアにゃ</button>
+                            <button type="submit" id="tweet" data-toggle="collapse" class="btn btn-primary">ツイートにゃ</button>
                         </div>
                         <div id="indicator_button_wrap" style="display: none;">
                             <button class="btn btn-primary" id="indicator" type="button" disabled>
@@ -80,8 +97,9 @@
           <a id="link_btn" href="#" target="_blank">ツイートを確認しに行くにゃ</a>
         </div>
 
+
         <div>
-          <table id="readme" class="table">
+          <table id="readme" class="table justify-content-center">
 
             </table>
         </div>
@@ -95,6 +113,41 @@
   </div>
 
   <script type="text/javascript">
+   document.getElementById('inputFileReset').addEventListener('click', function() {
+    var elem = document.getElementById('inputFile');
+      elem.value = '';
+      elem.dispatchEvent(new Event('change'));
+      $('#imagePreview').remove();
+    });
+    document.getElementById('inputFile').addEventListener('change', function (e) {
+      // 1枚だけ表示する
+      var file = e.target.files[0];
+
+      // ファイルリーダー作成
+      var fileReader = new FileReader();
+      fileReader.onload = function () {
+        // Data URIを取得
+        var dataUri = this.result;
+
+        // img要素に表示
+        var img = document.getElementById('imagePreview');
+        img.src = dataUri;
+      }
+
+      // ファイルをData URIとして読み込む
+      fileReader.readAsDataURL(file);
+    });
+    function ImageToBase64(img, mime_type) {
+      // New Canvas
+      var canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      // Draw Image
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      // To Base64
+      return canvas.toDataURL(mime_type);
+    }
     $(function () {
       $.ajax({
         type: 'GET',
@@ -183,6 +236,8 @@
         var tweet = $('#preview_field').val()
         var input = $('#input_field').val()
         var link = $('#reply_field').val()
+        var img = document.getElementById('file-preview');
+        var b64 = ImageToBase64(img, "image/jpeg");
         if (tweet == "") {
           alert("失敗にゃ\n入力されてないにゃ")
           return
@@ -196,7 +251,8 @@
           data: {
             "message": tweet,
             "input": input,
-            "reply": link
+            "reply": link,
+            "image": b64
           }
         })
 
