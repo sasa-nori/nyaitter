@@ -93,12 +93,14 @@ func PostTwitterAPI(c echo.Context) error {
     image := c.FormValue("image")
     if image != "" {
         b64data := image[strings.IndexByte(image, ',')+1:]
-        media, error := api.UploadMedia(b64data)
-        if error != nil {
-            fmt.Println(error)
-            return error
+        if b64data != "" {
+            media, error := api.UploadMedia(b64data)
+            if error != nil {
+                fmt.Println(error)
+                return error
+            }
+            v.Add("media_ids", media.MediaIDString)
         }
-        v.Add("media_ids", media.MediaIDString)
     }
 
     tweet, error := api.PostTweet(message, v)
