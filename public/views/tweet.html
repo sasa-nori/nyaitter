@@ -104,6 +104,14 @@
             </table>
         </div>
 
+        <div class="button_wrapper" id="tweet_button">
+          <p class="button">
+              <div id="tweet_button_wrap">
+                  <button type="submit" id="logout" data-toggle="collapse" class="btn btn-outline-primary">ログアウトにゃ</button>
+              </div>
+          </p>
+        </div>
+
         <div class="d-flex justify-content-center">
           <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/terms">利用規約</a></div>
           <div class="p-2"><a href="https://newstyleservice.hateblo.jp/entry/privacypolicy">プライバシーポリシー</a></div>
@@ -140,8 +148,8 @@
     function ImageToBase64(img, mime_type) {
       // New Canvas
       var canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
       // Draw Image
       var ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0);
@@ -227,8 +235,16 @@
         $('#preview_field').val("")
         $('#reply_field').val("")
         $('#complete').css("display", "none")
-        document.cookie = "message=; expires=0"
-        document.cookie = "reply=; expires=0"
+        document.cookie = "message=; max-age=0"
+        document.cookie = "reply=; max-age=0"
+      })
+    });
+    $(function () {
+      $('#logout').on('click', function () {
+        document.cookie = "message=; max-age=0"
+        document.cookie = "reply=; max-age=0"
+        document.cookie = "ESESSION=; max-age=0"
+        window.location.href = "logout"
       })
     });
     $(function () {
