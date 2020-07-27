@@ -41,6 +41,7 @@ func RunAPIServer() {
     e.POST("/check", twitter.HasSessionData)
     e.POST("/post", twitter.PostTwitterAPI)
     e.POST("/replace", nyaitter.ReplaceMessge)
+    e.GET("/logout", page.Logout)
     // サーバーを開始
     go func() {
         if err := e.Start(":3022"); err != nil {

@@ -32,6 +32,14 @@ func Tweet(c echo.Context) error {
     return c.Render(http.StatusOK, "tweet.html", preData)
 }
 
+// Logout ログアウト
+func Logout(c echo.Context) error {
+    session := session.Default(c)
+    session.Delete("token")
+    session.Clear()
+    return c.Redirect(http.StatusFound, "./")
+}
+
 func readCookie(c echo.Context, name string) string {
     cookie, error := c.Cookie(name)
     if error != nil {

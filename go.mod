@@ -20,4 +20,5 @@ require (
 	github.com/skratchdot/open-golang v0.0.0-20190402232053-79abb63cd66e
 	golang.org/x/crypto v0.0.0-20191112222119-e1110fd1c708 // indirect
 	golang.org/x/exp v0.0.0-20191030013958-a1ab85dbe136
+	honnef.co/go/tools v0.0.1-2020.1.4
 )
