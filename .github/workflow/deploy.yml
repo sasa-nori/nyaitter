@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ feature/ ]
+jobs:
+
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Docker set up
+      run: |
+        docker-compose build --no-cache
+
+    - name: Upload m
+      uses: actions/upload-artifact@v1
+      with:
+        name: nyaitter
+        path: nyaitter
