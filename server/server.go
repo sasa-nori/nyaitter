@@ -1,19 +1,16 @@
 package server
 
 import (
-    "context"
     "html/template"
     "io"
-    "os"
-    "os/signal"
 
     "time"
-
+    "github.com/tylerb/graceful"
     session "github.com/ipfans/echo-session"
     "github.com/labstack/echo"
-    "github.com/noriyuki-sasagawa/nyaitter_api/nyaitter"
-    "github.com/noriyuki-sasagawa/nyaitter_api/page"
-    "github.com/noriyuki-sasagawa/nyaitter_api/twitter"
+    "github.com/sasa-nori/nyaitter_api/nyaitter"
+    "github.com/sasa-nori/nyaitter_api/page"
+    "github.com/sasa-nori/nyaitter_api/twitter"
 )
 
 // RunAPIServer APIサーバー実行
@@ -43,23 +40,10 @@ func RunAPIServer() {
     e.POST("/replace", nyaitter.ReplaceMessge)
     e.GET("/logout", page.Logout)
     // サーバーを開始
-    go func() {
-        if err := e.Start(":2222"); err != nil {
-            e.Logger.Info("shutting down the server")
-        }
-    }()
+    e.Server.Addr = ":2222"
 
-    // (Graceful Shutdown)
-    quit := make(chan os.Signal)
-    signal.Notify(quit, os.Interrupt)
-    <-quit
-    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-
-    defer cancel()
-    store.MaxAge(-1)
-    if err := e.Shutdown(ctx); err != nil {
-        e.Logger.Fatal(err)
-    }
+    // Serve it like a boss
+    graceful.ListenAndServe(e.Server, 5*time.Second)
 }
 
 // Render テンプレートレンダリング
