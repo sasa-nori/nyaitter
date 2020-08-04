@@ -44,7 +44,7 @@ func RunAPIServer() {
     e.GET("/logout", page.Logout)
     // サーバーを開始
     go func() {
-        if err := e.Start(":3022"); err != nil {
+        if err := e.Start(":2222"); err != nil {
             e.Logger.Info("shutting down the server")
         }
     }()

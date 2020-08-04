@@ -1,0 +1,12 @@
+# docker-composeのバージョン
+version: '3'
+services:
+  nyaitter:
+    build:
+      context: .
+      dockerfile: ./docker/golang/Dockerfile
+    container_name: nyaitter
+    ports:
+      - "2222:2222"
+    volumes:
+      - .:/go/src/github.com/sasa-nori/nyaitter
