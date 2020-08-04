@@ -1,6 +1,6 @@
 package main
 
-import "github.com/noriyuki-sasagawa/nyaitter_api/server"
+import "github.com/sasa-nori/nyaitter_api/server"
 
 func main() {
     server.RunAPIServer()
