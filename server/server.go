@@ -8,9 +8,9 @@ import (
     "github.com/tylerb/graceful"
     session "github.com/ipfans/echo-session"
     "github.com/labstack/echo"
-    "github.com/sasa-nori/nyaitter_api/nyaitter"
-    "github.com/sasa-nori/nyaitter_api/page"
-    "github.com/sasa-nori/nyaitter_api/twitter"
+    "github.com/sasa-nori/nyaitter/nyaitter"
+    "github.com/sasa-nori/nyaitter/page"
+    "github.com/sasa-nori/nyaitter/twitter"
 )
 
 // RunAPIServer APIサーバー実行

@@ -1,5 +1,5 @@
 # 使用するGolangのイメージを指定する
-FROM golang:1.13
+FROM golang:1.15.0
 
 ENV GOBIN=/go/bin
 ENV GPPATH=/go

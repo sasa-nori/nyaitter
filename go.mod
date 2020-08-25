@@ -1,4 +1,4 @@
-module github.com/sasa-nori/nyaitter_api
+module github.com/sasa-nori/nyaitter
 
 go 1.15
 
