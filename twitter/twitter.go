@@ -19,7 +19,7 @@ import (
 )
 
 const callback = "https://cat.ss-n.app/callback"
-const test = "http://localhost:3022/callback"
+const test = "http://localhost:2222/callback"
 
 // AuthTwitter ツイッターの認証開始
 func AuthTwitter(c echo.Context) error {
