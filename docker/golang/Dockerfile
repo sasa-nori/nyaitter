@@ -1,8 +1,8 @@
 # 使用するGolangのイメージを指定する
 FROM golang:1.15.0
 
-ENV GOBIN=/go/bin
-ENV GPPATH=/go
+ENV GOBIN=/go/bin \
+    GOPATH=/go
 
 # ワーキングディレクトリを指定する
 WORKDIR /go/src/github.com/sasa-nori/nyaitter
