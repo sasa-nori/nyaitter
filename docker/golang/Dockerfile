@@ -7,6 +7,10 @@ ENV GOBIN=/go/bin \
 # ワーキングディレクトリを指定する
 WORKDIR /go/src/github.com/sasa-nori/nyaitter
 
+# 依存ライブラリをダウンロード
+COPY go.mod go.sum ./
+RUN go mod download
+
 # book-supplement直下のディレクトリをコンテナ上に載せる
 COPY . .
 
