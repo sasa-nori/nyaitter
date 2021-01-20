@@ -11,7 +11,7 @@ WORKDIR /go/src/github.com/sasa-nori/nyaitter
 COPY . .
 
 # go install で /go/bin 配下にバイナリがビルドされる
-RUN GOOS=linux GOARCH=amd64 go build -o ${GOBIN} && go install
+RUN GOOS=linux GOARCH=amd64 go install
 
 # image自体に最初からPATHに/go/binのパスが設定されているため、バイナリファイルを書くだけで動かすことができる
 ENTRYPOINT [ "nyaitter" ]
